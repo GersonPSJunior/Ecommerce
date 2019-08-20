@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import br.com.duosdevelop.ecommerce.domain.Address;
 import br.com.duosdevelop.ecommerce.domain.Category;
 import br.com.duosdevelop.ecommerce.domain.City;
+import br.com.duosdevelop.ecommerce.domain.Customer;
 import br.com.duosdevelop.ecommerce.domain.Product;
 import br.com.duosdevelop.ecommerce.domain.State;
+import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
+import br.com.duosdevelop.ecommerce.repositories.AddressRepository;
 import br.com.duosdevelop.ecommerce.repositories.CategoryRepository;
 import br.com.duosdevelop.ecommerce.repositories.CityRepository;
+import br.com.duosdevelop.ecommerce.repositories.CustomerRepository;
 import br.com.duosdevelop.ecommerce.repositories.ProductRepository;
 import br.com.duosdevelop.ecommerce.repositories.StateRepository;
 
@@ -31,6 +36,12 @@ public class EcommerceApplication implements CommandLineRunner{
 	@Autowired
 	private CityRepository repositoryCity;
 	
+	@Autowired
+	private CustomerRepository repositoryCustomer;
+	
+	@Autowired
+	private AddressRepository repositoryAddress;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
 	}
@@ -40,15 +51,25 @@ public class EcommerceApplication implements CommandLineRunner{
 
 		Category cat1 = new Category(null, "Informática");
 		Category cat2 = new Category(null, "Escritório");
+		
 		Product prod1 = new Product(null, "Computador", 2000.00);
 		Product prod2 = new Product(null, "Impressora", 800.00);
 		Product prod3 = new Product(null, "Mouse", 80.00);
+		
 		State mg = new State(null, "Minas Gerais");
 		State sp = new State(null, "São Paulo");
+		
 		City ubCity = new City(null, "Uberlândia", mg);
 		City spCity = new City(null, "São Paulo", sp);
 		City cmCity = new City(null, "Campinas", sp);
 		
+		Customer customer1 = new Customer(null, "Maria das Dores", "maria@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA);
+		customer1.getTel().addAll(Arrays.asList("24351435", "53126355"));
+		
+		Address address1 = new Address(null, "Rua 1", "300", "casa", "Jardim", "03297266", customer1, ubCity);
+		Address address2 = new Address(null, "Rua 2", "400", "casa 3", "Jardim", "63429628", customer1, spCity);
+		
+		customer1.getAddress().addAll(Arrays.asList(address1, address2));
 		cat1.getProducts().addAll(Arrays.asList(prod1, prod2, prod3));
 		cat2.getProducts().addAll(Arrays.asList(prod2));
 		prod1.getCategories().addAll(Arrays.asList(cat1));
@@ -62,6 +83,8 @@ public class EcommerceApplication implements CommandLineRunner{
 		repositoryProduct.saveAll(Arrays.asList(prod1, prod2, prod3));
 		repositoryState.saveAll(Arrays.asList(mg, sp));
 		repositoryCity.saveAll(Arrays.asList(ubCity, spCity, cmCity));
+		repositoryCustomer.saveAll(Arrays.asList(customer1));
+		repositoryAddress.saveAll(Arrays.asList(address1, address2));
 	}
 
 }
