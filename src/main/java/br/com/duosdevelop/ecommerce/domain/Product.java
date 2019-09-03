@@ -2,7 +2,9 @@ package br.com.duosdevelop.ecommerce.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -31,6 +34,9 @@ public class Product implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "category_id")
 	)
 	private List<Category> categories = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.product")
+	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Product() {}
 	
@@ -39,6 +45,12 @@ public class Product implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.value = value;
+	}
+	
+	public List<Pedido> pedidos(){
+		List<Pedido> lista = new ArrayList<>();
+		itens.forEach(item -> lista.add(item.getPedido()));
+		return lista;
 	}
 
 	public Long getId() {
@@ -71,6 +83,14 @@ public class Product implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+	
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 	
 	@Override

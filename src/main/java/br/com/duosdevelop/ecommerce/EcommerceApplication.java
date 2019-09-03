@@ -13,6 +13,7 @@ import br.com.duosdevelop.ecommerce.domain.CardPayment;
 import br.com.duosdevelop.ecommerce.domain.Category;
 import br.com.duosdevelop.ecommerce.domain.City;
 import br.com.duosdevelop.ecommerce.domain.Customer;
+import br.com.duosdevelop.ecommerce.domain.ItemPedido;
 import br.com.duosdevelop.ecommerce.domain.Payment;
 import br.com.duosdevelop.ecommerce.domain.PaymentSlip;
 import br.com.duosdevelop.ecommerce.domain.Pedido;
@@ -24,6 +25,7 @@ import br.com.duosdevelop.ecommerce.repositories.AddressRepository;
 import br.com.duosdevelop.ecommerce.repositories.CategoryRepository;
 import br.com.duosdevelop.ecommerce.repositories.CityRepository;
 import br.com.duosdevelop.ecommerce.repositories.CustomerRepository;
+import br.com.duosdevelop.ecommerce.repositories.ItemPedidoRepository;
 import br.com.duosdevelop.ecommerce.repositories.PaymentRepository;
 import br.com.duosdevelop.ecommerce.repositories.PedidoRepository;
 import br.com.duosdevelop.ecommerce.repositories.ProductRepository;
@@ -55,6 +57,9 @@ public class EcommerceApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PaymentRepository repositoryPayment;
+	
+	@Autowired
+	private ItemPedidoRepository repositoryItemPedido;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
@@ -93,6 +98,12 @@ public class EcommerceApplication implements CommandLineRunner{
 		Payment payment2 = new PaymentSlip(null, StatePayment.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPayment(payment2);
 		
+		ItemPedido item1 = new ItemPedido(ped1, prod1, 0.00, 1, 2000.00);
+		
+		ItemPedido item2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.00);
+		
+		ItemPedido item3 = new ItemPedido(ped2, prod2, 100.00, 1, 800.00);
+		
 		customer1.getAddress().addAll(Arrays.asList(address1, address2));
 		cat1.getProducts().addAll(Arrays.asList(prod1, prod2, prod3));
 		cat2.getProducts().addAll(Arrays.asList(prod2));
@@ -105,6 +116,13 @@ public class EcommerceApplication implements CommandLineRunner{
 		
 		customer1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 		
+		ped1.getItens().addAll(Arrays.asList(item1, item2));
+		ped2.getItens().addAll(Arrays.asList(item3));
+		
+		prod1.getItens().addAll(Arrays.asList(item1));
+		prod2.getItens().addAll(Arrays.asList(item3));
+		prod3.getItens().addAll(Arrays.asList(item2));
+		
 		repositoryCategory.saveAll(Arrays.asList(cat1, cat2));
 		repositoryProduct.saveAll(Arrays.asList(prod1, prod2, prod3));
 		repositoryState.saveAll(Arrays.asList(mg, sp));
@@ -114,6 +132,8 @@ public class EcommerceApplication implements CommandLineRunner{
 		
 		repositoryPedido.saveAll(Arrays.asList(ped1, ped2));
 		repositoryPayment.saveAll(Arrays.asList(payment1, payment2));
+		
+		repositoryItemPedido.saveAll(Arrays.asList(item1, item2, item3));
 	}
 
 }
