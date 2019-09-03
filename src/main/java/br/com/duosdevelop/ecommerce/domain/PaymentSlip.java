@@ -4,13 +4,17 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
 
 @Entity
 public class PaymentSlip extends Payment{
 	private static final long serialVersionUID = 1L;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dateVencimento;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date datePayment;
 	
 	public PaymentSlip() {}
