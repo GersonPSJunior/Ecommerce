@@ -1,5 +1,6 @@
 package br.com.duosdevelop.ecommerce;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,23 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.duosdevelop.ecommerce.domain.Address;
+import br.com.duosdevelop.ecommerce.domain.CardPayment;
 import br.com.duosdevelop.ecommerce.domain.Category;
 import br.com.duosdevelop.ecommerce.domain.City;
 import br.com.duosdevelop.ecommerce.domain.Customer;
+import br.com.duosdevelop.ecommerce.domain.Payment;
+import br.com.duosdevelop.ecommerce.domain.PaymentSlip;
+import br.com.duosdevelop.ecommerce.domain.Pedido;
 import br.com.duosdevelop.ecommerce.domain.Product;
 import br.com.duosdevelop.ecommerce.domain.State;
+import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
 import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 import br.com.duosdevelop.ecommerce.repositories.AddressRepository;
 import br.com.duosdevelop.ecommerce.repositories.CategoryRepository;
 import br.com.duosdevelop.ecommerce.repositories.CityRepository;
 import br.com.duosdevelop.ecommerce.repositories.CustomerRepository;
+import br.com.duosdevelop.ecommerce.repositories.PaymentRepository;
+import br.com.duosdevelop.ecommerce.repositories.PedidoRepository;
 import br.com.duosdevelop.ecommerce.repositories.ProductRepository;
 import br.com.duosdevelop.ecommerce.repositories.StateRepository;
 
@@ -41,6 +49,12 @@ public class EcommerceApplication implements CommandLineRunner{
 	
 	@Autowired
 	private AddressRepository repositoryAddress;
+	
+	@Autowired
+	private PedidoRepository repositoryPedido;
+	
+	@Autowired
+	private PaymentRepository repositoryPayment;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
@@ -69,6 +83,16 @@ public class EcommerceApplication implements CommandLineRunner{
 		Address address1 = new Address(null, "Rua 1", "300", "casa", "Jardim", "03297266", customer1, ubCity);
 		Address address2 = new Address(null, "Rua 2", "400", "casa 3", "Jardim", "63429628", customer1, spCity);
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), customer1, address1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), customer1, address2);
+		
+		Payment payment1 = new CardPayment(null, StatePayment.QUITADO, ped1, 6);
+		ped1.setPayment(payment1);
+		
+		Payment payment2 = new PaymentSlip(null, StatePayment.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPayment(payment2);
+		
 		customer1.getAddress().addAll(Arrays.asList(address1, address2));
 		cat1.getProducts().addAll(Arrays.asList(prod1, prod2, prod3));
 		cat2.getProducts().addAll(Arrays.asList(prod2));
@@ -79,12 +103,17 @@ public class EcommerceApplication implements CommandLineRunner{
 		mg.getCities().addAll(Arrays.asList(ubCity));
 		sp.getCities().addAll(Arrays.asList(spCity, cmCity));
 		
+		customer1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
 		repositoryCategory.saveAll(Arrays.asList(cat1, cat2));
 		repositoryProduct.saveAll(Arrays.asList(prod1, prod2, prod3));
 		repositoryState.saveAll(Arrays.asList(mg, sp));
 		repositoryCity.saveAll(Arrays.asList(ubCity, spCity, cmCity));
 		repositoryCustomer.saveAll(Arrays.asList(customer1));
 		repositoryAddress.saveAll(Arrays.asList(address1, address2));
+		
+		repositoryPedido.saveAll(Arrays.asList(ped1, ped2));
+		repositoryPayment.saveAll(Arrays.asList(payment1, payment2));
 	}
 
 }
