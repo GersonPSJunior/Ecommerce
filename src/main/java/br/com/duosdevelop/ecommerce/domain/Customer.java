@@ -1,23 +1,14 @@
 package br.com.duosdevelop.ecommerce.domain;
 
+import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 
 @Entity
 public class Customer implements Serializable {
@@ -31,7 +22,6 @@ public class Customer implements Serializable {
 	private String document;
 	private Integer type;
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "customer")
 	private List<Address> address = new ArrayList<>();
 	
@@ -39,7 +29,7 @@ public class Customer implements Serializable {
 	@CollectionTable(name = "tel")
 	private Set<String> tel = new HashSet<>();
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Pedido> pedidos = new ArrayList<>();
 	

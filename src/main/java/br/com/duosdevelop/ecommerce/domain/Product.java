@@ -1,22 +1,13 @@
 package br.com.duosdevelop.ecommerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
@@ -28,7 +19,7 @@ public class Product implements Serializable {
 	private String name;
 	private Double value;
 	
-	@JsonBackReference // Ignora a lista quando for buscada a categoria
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "Product_Category", 
 		joinColumns = @JoinColumn(name = "product_id"),
