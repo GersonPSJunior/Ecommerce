@@ -1,5 +1,6 @@
 package br.com.duosdevelop.ecommerce.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.duosdevelop.ecommerce.services.exceptions.DataIntegrityException;
@@ -17,6 +18,9 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repository;
 	
+	public List<Category> findAll(){
+		return repository.findAll();
+	}
 	public Category find(Long id) {
 		Optional<Category> category = repository.findById(id);
 		
