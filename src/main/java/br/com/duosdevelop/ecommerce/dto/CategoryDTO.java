@@ -3,11 +3,17 @@ package br.com.duosdevelop.ecommerce.dto;
 import java.io.Serializable;
 
 import br.com.duosdevelop.ecommerce.domain.Category;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 
 public class CategoryDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
 	private String name;
 	
 	public CategoryDTO() {}

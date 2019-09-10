@@ -3,6 +3,7 @@ package br.com.duosdevelop.ecommerce.services;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.duosdevelop.ecommerce.dto.CategoryDTO;
 import br.com.duosdevelop.ecommerce.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -54,5 +55,9 @@ public class CategoryService {
 		
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
+	}
+
+	public Category fromDTO(CategoryDTO obj){
+		return new Category(obj.getId(), obj.getName());
 	}
 }
