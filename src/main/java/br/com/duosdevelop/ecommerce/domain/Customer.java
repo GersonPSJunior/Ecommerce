@@ -40,7 +40,7 @@ public class Customer implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.document = document;
-		this.type = type.getCod();
+		this.type = (type == null) ? null : type.getCod();
 	}
 	public Long getId() {
 		return id;

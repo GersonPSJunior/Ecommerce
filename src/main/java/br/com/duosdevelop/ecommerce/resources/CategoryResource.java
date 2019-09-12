@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import br.com.duosdevelop.ecommerce.domain.Category;
 import br.com.duosdevelop.ecommerce.dto.CategoryDTO;
 import br.com.duosdevelop.ecommerce.services.CategoryService;
-import io.jsonwebtoken.lang.Collections;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
