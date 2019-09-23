@@ -22,7 +22,7 @@ public class Customer implements Serializable {
 	private String document;
 	private Integer type;
 	
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<Address> address = new ArrayList<>();
 	
 	@ElementCollection
