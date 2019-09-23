@@ -32,7 +32,7 @@ public class CustomerResource {
 	
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody NewCustomerDTO newCustomerDTO){
+	public ResponseEntity<Void> insert(@Valid @RequestBody NewCustomerDTO newCustomerDTO){
 		Customer customer = service.fromDTO(newCustomerDTO);
 		customer = service.insert(customer);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

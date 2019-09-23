@@ -1,20 +1,42 @@
 package br.com.duosdevelop.ecommerce.dto;
 
+import br.com.duosdevelop.ecommerce.services.validation.CustomerInsert;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@CustomerInsert
 public class NewCustomerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 5, max = 120, message = "tamanho deve ser entre 5 e 120 caracteres")
 	private String name;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Email
 	private String email;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String document;
+
 	private Integer type;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String street;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String number;
+
 	private String complement;
 	private String neighborhood;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String cep;
-	
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;

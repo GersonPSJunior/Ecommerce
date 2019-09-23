@@ -2,15 +2,15 @@ package br.com.duosdevelop.ecommerce.resources.exceptions;
 
 import java.io.Serializable;
 
-public class FildMessage implements Serializable {
+public class FieldMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String fieldName;
     private String message;
 
-    public FildMessage() {}
+    public FieldMessage() {}
 
-    public FildMessage(String fieldName, String message) {
+    public FieldMessage(String fieldName, String message) {
         this.fieldName = fieldName;
         this.message = message;
     }
