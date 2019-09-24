@@ -1,16 +1,17 @@
 package br.com.duosdevelop.ecommerce.services.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = CustomerInsertValidator.class)
+import javax.validation.Constraint;
+import javax.validation.Payload;
+
+@Constraint(validatedBy = CustomerUpadateValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CustomerInsert {
+public @interface CustomerUpdate {
 
     String message() default "erro de validação";
 

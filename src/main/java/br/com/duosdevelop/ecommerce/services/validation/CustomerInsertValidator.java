@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteInsertValidator implements ConstraintValidator<CustomerInsert, NewCustomerDTO> {
+public class CustomerInsertValidator implements ConstraintValidator<CustomerInsert, NewCustomerDTO> {
     
 	@Autowired
 	private CustomerRepository repository;
@@ -26,19 +26,19 @@ public class ClienteInsertValidator implements ConstraintValidator<CustomerInser
     }
 
     @Override
-    public boolean isValid(NewCustomerDTO newCustomerDTO, ConstraintValidatorContext context) {
+    public boolean isValid(NewCustomerDTO objDTO, ConstraintValidatorContext context) {
 
         List<FieldMessage> list = new ArrayList<>();
 
-        if(newCustomerDTO.getType().equals(TypeCustomer.PESSOA_FISICA.getCod()) &&
-                !BR.isValidCPF(newCustomerDTO.getDocument()))
+        if(objDTO.getType().equals(TypeCustomer.PESSOA_FISICA.getCod()) &&
+                !BR.isValidCPF(objDTO.getDocument()))
             list.add(new FieldMessage("Type", "CPF inválido"));
 
-        if(newCustomerDTO.getType().equals(TypeCustomer.PESSOA_JURIDICA.getCod()) &&
-                !BR.isValidCNPJ(newCustomerDTO.getDocument()))
+        if(objDTO.getType().equals(TypeCustomer.PESSOA_JURIDICA.getCod()) &&
+                !BR.isValidCNPJ(objDTO.getDocument()))
             list.add(new FieldMessage("Type", "CNPJ inválido"));
 
-        Customer customerAux = repository.findByEmail(newCustomerDTO.getEmail());
+        Customer customerAux = repository.findByEmail(objDTO.getEmail());
         
         if(customerAux != null)
         	list.add(new FieldMessage("Email", "Email já existente"));
