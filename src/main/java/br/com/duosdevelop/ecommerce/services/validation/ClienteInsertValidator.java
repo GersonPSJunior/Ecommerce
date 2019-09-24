@@ -1,17 +1,26 @@
 package br.com.duosdevelop.ecommerce.services.validation;
 
+import br.com.duosdevelop.ecommerce.domain.Customer;
 import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 import br.com.duosdevelop.ecommerce.dto.NewCustomerDTO;
+import br.com.duosdevelop.ecommerce.repositories.CustomerRepository;
 import br.com.duosdevelop.ecommerce.resources.exceptions.FieldMessage;
 import br.com.duosdevelop.ecommerce.services.validation.utils.BR;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteInsertValidator implements ConstraintValidator<CustomerInsert, NewCustomerDTO> {
-    @Override
+    
+	@Autowired
+	private CustomerRepository repository;
+	
+	@Override
     public void initialize(CustomerInsert constraintAnnotation) {
 
     }
@@ -29,6 +38,12 @@ public class ClienteInsertValidator implements ConstraintValidator<CustomerInser
                 !BR.isValidCNPJ(newCustomerDTO.getDocument()))
             list.add(new FieldMessage("Type", "CNPJ inválido"));
 
+        Customer customerAux = repository.findByEmail(newCustomerDTO.getEmail());
+        
+        if(customerAux != null)
+        	list.add(new FieldMessage("Email", "Email já existente"));
+        	
+        
         for (FieldMessage fieldMessage : list) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(fieldMessage.getMessage())
