@@ -21,6 +21,7 @@ import br.com.duosdevelop.ecommerce.repositories.AddressRepository;
 import br.com.duosdevelop.ecommerce.repositories.CustomerRepository;
 import br.com.duosdevelop.ecommerce.services.exceptions.DataIntegrityException;
 import br.com.duosdevelop.ecommerce.services.exceptions.ObjectNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CustomerService {
@@ -30,7 +31,8 @@ public class CustomerService {
 	
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
+	@Transactional
 	public Customer insert(Customer customer) {
 		customer.setId(null);
 		customer = repository.save(customer);

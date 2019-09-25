@@ -30,7 +30,6 @@ public class CustomerResource {
 	@Autowired
 	private CustomerService service;
 	
-	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody NewCustomerDTO newCustomerDTO){
 		Customer customer = service.fromDTO(newCustomerDTO);

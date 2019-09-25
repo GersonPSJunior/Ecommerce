@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName(value = "paymentSlip")
 public class PaymentSlip extends Payment{
 	private static final long serialVersionUID = 1L;
 

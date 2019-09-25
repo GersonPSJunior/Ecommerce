@@ -3,8 +3,10 @@ package br.com.duosdevelop.ecommerce.domain;
 import javax.persistence.Entity;
 
 import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName(value = "cardPayment")
 public class CardPayment extends Payment {
 	private static final long serialVersionUID = 1L;
 
