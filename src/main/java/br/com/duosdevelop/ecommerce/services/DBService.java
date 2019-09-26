@@ -69,7 +69,7 @@ public class DBService {
         City spCity = new City(null, "São Paulo", sp);
         City cmCity = new City(null, "Campinas", sp);
 
-        Customer customer1 = new Customer(null, "Maria das Dores", "maria@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA);
+        Customer customer1 = new Customer(null, "Maria das Dores", "gersonpssesi123@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA);
         customer1.getTel().addAll(Arrays.asList("24351435", "53126355"));
 
         Address address1 = new Address(null, "Rua 1", "300", "casa", "Jardim", "03297266", customer1, ubCity);
