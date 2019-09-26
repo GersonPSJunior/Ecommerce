@@ -1,6 +1,8 @@
 package br.com.duosdevelop.ecommerce.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -107,5 +109,15 @@ public class ItemPedido implements Serializable{
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder sb = new StringBuilder();
+		sb.append(getProduct().getName());
+		sb.append(", Quantidade: ").append(quantidade);
+		sb.append(", Preço unitário: ").append(nf.format(preco));
+		sb.append(", Subtotal: ").append(nf.format(getSubTotal()) +"\n");
+		return sb.toString();
+	}
 }

@@ -32,6 +32,9 @@ public class PedidoService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+
+	@Autowired
+	private CustomerService customerService;
 	
 	public Pedido find(Long id) {
 		Optional<Pedido> pedido = repository.findById(id);
@@ -44,6 +47,7 @@ public class PedidoService {
 	public Pedido insert(Pedido pedido) {
 		pedido.setId(null);
 		pedido.setInstante(new Date());
+		pedido.setCustomer(customerService.find(pedido.getCustomer().getId()));
 		pedido.getPayment().setStatePayment(StatePayment.PENDENTE);
 		pedido.getPayment().setPedido(pedido);
 		if (pedido.getPayment() instanceof PaymentSlip) {
@@ -55,10 +59,12 @@ public class PedidoService {
 		paymentRepository.save(pedido.getPayment());
 		for (ItemPedido item : pedido.getItens()) {
 			item.setDesconto(0.0);
-			item.setPreco(productService.find(item.getProduct().getId()).getValue());
+			item.setProduct(productService.find(item.getProduct().getId()));
+			item.setPreco(item.getProduct().getValue());
 			item.setPedido(pedido);
 		}
 		itemPedidoRepository.saveAll(pedido.getItens());
+		System.out.println(pedido);
 		return pedido;
 	}
 }
