@@ -5,6 +5,7 @@ import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
 import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 import br.com.duosdevelop.ecommerce.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder be;
 
     @Autowired
     private CategoryRepository repositoryCategory;
@@ -69,7 +73,7 @@ public class DBService {
         City spCity = new City(null, "São Paulo", sp);
         City cmCity = new City(null, "Campinas", sp);
 
-        Customer customer1 = new Customer(null, "Maria das Dores", "gersonpssesi123@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA);
+        Customer customer1 = new Customer(null, "Maria das Dores", "gersonpssesi123@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA, be.encode("123"));
         customer1.getTel().addAll(Arrays.asList("24351435", "53126355"));
 
         Address address1 = new Address(null, "Rua 1", "300", "casa", "Jardim", "03297266", customer1, ubCity);

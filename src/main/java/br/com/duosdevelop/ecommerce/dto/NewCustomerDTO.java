@@ -42,6 +42,9 @@ public class NewCustomerDTO implements Serializable {
 	private String telefone3;
 	
 	private Long cityId;
+
+	@NotEmpty
+	private String password;
 	
 	public NewCustomerDTO() {}
 
@@ -149,4 +152,11 @@ public class NewCustomerDTO implements Serializable {
 		this.cityId = cityId;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

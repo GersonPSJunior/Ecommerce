@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.duosdevelop.ecommerce.domain.Address;
@@ -25,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CustomerService {
+
+	@Autowired
+	private BCryptPasswordEncoder be;
 
 	@Autowired
 	private CustomerRepository repository;
@@ -79,7 +83,7 @@ public class CustomerService {
 	
 	public Customer fromDTO(NewCustomerDTO customerDTO) {
 		Customer customer = new Customer(null, customerDTO.getName(), customerDTO.getEmail(), 
-				customerDTO.getDocument(), TypeCustomer.toEnum(customerDTO.getType()));
+				customerDTO.getDocument(), TypeCustomer.toEnum(customerDTO.getType()), be.encode(customerDTO.getPassword()));
 		City city = new City(customerDTO.getCityId(), null, null);
 		Address address = new Address(null, customerDTO.getStreet(), customerDTO.getNumber(), 
 				customerDTO.getComplement(), customerDTO.getNeighborhood(), customerDTO.getCep(), customer, city);
