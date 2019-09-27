@@ -24,11 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private Environment env;
 
     private static String[] PUBLIC_MATCHERS = {
-            "/h2/console/**",
+            "/h2-console/**",
     };
     private static String[] PUBLIC_MATCHERS_GET = {
             "/products/**",
-            "/categories/**"
+            "/categories/**",
+            "/customers/**"
     };
 
     @Override

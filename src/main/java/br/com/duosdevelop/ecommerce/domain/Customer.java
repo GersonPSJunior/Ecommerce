@@ -1,5 +1,6 @@
 package br.com.duosdevelop.ecommerce.domain;
 
+import br.com.duosdevelop.ecommerce.domain.enums.Perfil;
 import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Customer implements Serializable {
@@ -33,12 +35,18 @@ public class Customer implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "tel")
 	private Set<String> tel = new HashSet<>();
-	
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
-	public Customer() {}
+	public Customer() {
+		addPerfil(Perfil.CUSTOMER);
+	}
 	public Customer(Long id, String name, String email, String document, TypeCustomer type, String password) {
 		super();
 		this.id = id;
@@ -47,6 +55,7 @@ public class Customer implements Serializable {
 		this.document = document;
 		this.type = (type == null) ? null : type.getCod();
 		this.password = password;
+		addPerfil(Perfil.CUSTOMER);
 	}
 	public Long getId() {
 		return id;
@@ -96,6 +105,15 @@ public class Customer implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil){
+		perfis.add(perfil.getCod());
+	}
+
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}

@@ -1,6 +1,7 @@
 package br.com.duosdevelop.ecommerce.services;
 
 import br.com.duosdevelop.ecommerce.domain.*;
+import br.com.duosdevelop.ecommerce.domain.enums.Perfil;
 import br.com.duosdevelop.ecommerce.domain.enums.StatePayment;
 import br.com.duosdevelop.ecommerce.domain.enums.TypeCustomer;
 import br.com.duosdevelop.ecommerce.repositories.*;
@@ -73,11 +74,15 @@ public class DBService {
         City spCity = new City(null, "São Paulo", sp);
         City cmCity = new City(null, "Campinas", sp);
 
-        Customer customer1 = new Customer(null, "Maria das Dores", "gersonpssesi123@gmail.com", "123.456.789-12", TypeCustomer.PESSOA_FISICA, be.encode("123"));
+        Customer customer1 = new Customer(null, "Maria das Dores", "gersonpssesi123@gmail.com", "20164050078", TypeCustomer.PESSOA_FISICA, be.encode("123"));
         customer1.getTel().addAll(Arrays.asList("24351435", "53126355"));
+        Customer customer2 = new Customer(null, "Ana Maria", "anaMaria@gmail.com", "47265810074", TypeCustomer.PESSOA_FISICA, be.encode("321"));
+        customer2.addPerfil(Perfil.ADMIN);
+        customer2.getTel().addAll(Arrays.asList("24351436"));
 
         Address address1 = new Address(null, "Rua 1", "300", "casa", "Jardim", "03297266", customer1, ubCity);
         Address address2 = new Address(null, "Rua 2", "400", "casa 3", "Jardim", "63429628", customer1, spCity);
+        Address address3 = new Address(null, "Rua 3", "500", "casa 2", "Jardim", "63429628", customer2, cmCity);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), customer1, address1);
@@ -96,6 +101,7 @@ public class DBService {
         ItemPedido item3 = new ItemPedido(ped2, prod2, 100.00, 1, 800.00);
 
         customer1.getAddress().addAll(Arrays.asList(address1, address2));
+        customer2.getAddress().addAll(Arrays.asList(address3));
 
         cat1.getProducts().addAll(Arrays.asList(prod1, prod2, prod3));
         cat2.getProducts().addAll(Arrays.asList(prod2, prod4));
@@ -133,8 +139,8 @@ public class DBService {
         repositoryProduct.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11));
         repositoryState.saveAll(Arrays.asList(mg, sp));
         repositoryCity.saveAll(Arrays.asList(ubCity, spCity, cmCity));
-        repositoryCustomer.saveAll(Arrays.asList(customer1));
-        repositoryAddress.saveAll(Arrays.asList(address1, address2));
+        repositoryCustomer.saveAll(Arrays.asList(customer1, customer2));
+        repositoryAddress.saveAll(Arrays.asList(address1, address2, address3));
 
         repositoryPedido.saveAll(Arrays.asList(ped1, ped2));
         repositoryPayment.saveAll(Arrays.asList(payment1, payment2));
